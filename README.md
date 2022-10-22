@@ -3,7 +3,9 @@
 ## Commands - HashCore
  
 site_name(); - get the site name
+
 head(); - add all styles and scripts to the head of the page
+
 js(); - add all scripts to the page
 
 authenticate(OPTION); - check if the user is sign-in or not
