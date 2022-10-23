@@ -1,6 +1,5 @@
 <?php
 include_once 'functions/functions.php';
-authenticator('auth');
 ?>
 <!doctype html>
 <html lang="en">
@@ -14,7 +13,7 @@ authenticator('auth');
     <?php
     sign_up_form();
     js();
-    ?>>
+    ?>
 
 </body>
 

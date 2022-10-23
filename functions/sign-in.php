@@ -2,15 +2,16 @@
 function sign_in(){
     $con = mysqli_connect(settings('database','host'), settings('database','username'), settings('database','password'), settings('database','database'));
     if (isset($_POST['submit'])){
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+        $username = base64_encode($_POST['username']);
+        $password = base64_encode($_POST['password']);
         $sql = "SELECT * FROM `users` WHERE `username`='$username' AND `password`='$password'";
         $result = $con->query($sql);
         if (mysqli_num_rows($result) > 0) {
             if ($row = $result-> fetch_assoc()) {
-                $_SESSION['ID'] = hash('sha256', $row['ID']);
+                $_SESSION['ID'] = hash('sha512', $row['ID']);
+                $_SESSION['hash'] = hash('sha512', $row['username']);
                 $location_success = settings('site-settings','dashboard');
-                header("Location: $location_success?sign-in-success=true");
+                header("Location: $location_success?sign-in-success=true&hash=".$_SESSION['hash']);
                 exit();
             }
         }else {
@@ -22,7 +23,7 @@ function sign_in(){
 }
 
 function sign_in_form(){
-    if(!authenticator('auth-bool')){
+    if(authenticator('auth-bool')){
         $location = settings('site-settings','dashboard');
         header("Location: $location");
     }
